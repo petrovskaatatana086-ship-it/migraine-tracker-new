@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- ============================================================
+       META & PWA
+       ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563EB" id="themeColorMeta" />
+  <meta name="description" content="Дневник головной боли — PWA для отслеживания приступов и триггеров" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Дневник ГБ" />
+  <title>Дневник головной боли</title>
+
+  <!-- PWA Manifest inline -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%20%22%5Cu0414%5Cu043d%5Cu0435%5Cu0432%5Cu043d%5Cu0438%5Cu043a%20%5Cu0433%5Cu043e%5Cu043b%5Cu043e%5Cu0432%5Cu043d%5Cu043e%5Cu0439%20%5Cu0431%5Cu043e%5Cu043b%5Cu0438%22%2C%20%22short_name%22%3A%20%22%5Cu0414%5Cu043d%5Cu0435%5Cu0432%5Cu043d%5Cu0438%5Cu043a%20%5Cu0413%5Cu0411%22%2C%20%22start_url%22%3A%20%22./%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%232563EB%22%2C%20%22theme_color%22%3A%20%22%232563EB%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNEE5MEQ5Ii8%2BCiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI1NjNFQiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI%2BCiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM1QjlGRTgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMUQ0RUQ4Ii8%2BCiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8IS0tIEJhY2tncm91bmQgd2l0aCByb3VuZGVkIGNvcm5lcnMgLS0%2BCiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTAiIGZpbGw9InVybCgjYmcyKSIvPgoKICA8IS0tIEhlYWQgc2lsaG91ZXR0ZSBpbiBwcm9maWxlIChmYWNpbmcgbGVmdCkgLS0%2BCiAgPHBhdGggZD0iTTMxMCA4MCBDMzcwIDgwIDQyMCAxMzAgNDIwIDIwMCBDNDIwIDI0MCA0MDUgMjcwIDM4NSAyOTAgQzM3NSAzMDAgMzY1IDMwOCAzNjAgMzIwIEMzNTUgMzMyIDM1NSAzNDUgMzU1IDM2MCBMMzU1IDM5MCBDMzU1IDQwMCAzNDcgNDA4IDMzNyA0MDggTDI0MCA0MDggQzIzMCA0MDggMjIyIDQwMCAyMjIgMzkwIEwyMjIgMzcwIEMyMjIgMzU1IDIxNSAzNDIgMjA1IDMzMiBDMTg1IDMxNSAxNzIgMjkwIDE3MiAyNjAgQzE3MiAxNjIgMjMzIDgwIDMxMCA4MCBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC45NSIvPgogIAogIDwhLS0gTmVjayAtLT4KICA8cGF0aCBkPSJNMjU1IDQwOCBMMjU1IDQ0MCBDMjU1IDQ0NSAyNTggNDQ4IDI2MyA0NTAgTDMxMCA0NTUgQzMyMCA0NTYgMzMwIDQ1MCAzMzIgNDQwIEwzMzUgNDA4IFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjkiLz4KCiAgPCEtLSBIYW5kIHRvdWNoaW5nIHRlbXBsZSAtLT4KICA8cGF0aCBkPSJNMTk1IDI5NSBDMTg1IDI4NSAxNzAgMjgwIDE2MCAyODUgQzE0NSAyOTIgMTM4IDMxMCAxNDIgMzI4IEMxNDUgMzQwIDE1MiAzNTAgMTYyIDM1OCBDMTcyIDM2NiAxODIgMzcwIDE5MiAzNjggQzIwMiAzNjYgMjEwIDM1OCAyMTUgMzQ4IEMyMjIgMzMyIDIxNSAzMTAgMTk1IDI5NSBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC44OCIvPgogIDwhLS0gRmluZ2VycyAtLT4KICA8cGF0aCBkPSJNMTYwIDI5NSBDMTUwIDI4OCAxMzggMjg1IDEzMCAyOTAgQzEyMiAyOTYgMTIwIDMwOCAxMjYgMzE4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC44NSIvPgogIDxwYXRoIGQ9Ik0xNDggMzEwIEMxMzUgMzA1IDEyMiAzMDUgMTE1IDMxMiBDMTA4IDMyMCAxMTAgMzMyIDExOCAzNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjg1Ii8%2BCiAgPHBhdGggZD0iTTE0NSAzMzAgQzEzMCAzMjggMTE4IDMzMiAxMTQgMzQyIEMxMTAgMzUyIDExNiAzNjQgMTI2IDM2OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuODIiLz4KCiAgPCEtLSBFeWUgKGNsb3NlZCwganVzdCBhIGN1cnZlZCBsaW5lKSAtLT4KICA8cGF0aCBkPSJNMjU1IDE4NSBDMjYyIDE4MCAyNzIgMTgwIDI3OCAxODUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNCODJGNiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KCiAgPCEtLSBQYWluIGNpcmNsZXMgKGNvbmNlbnRyaWMsIHJlZCwgY2VudGVyZWQgYXJvdW5kIHRlbXBsZSBhcmVhIH4zMDAsMjMwKSAtLT4KICA8Y2lyY2xlIGN4PSIzMDUiIGN5PSIyMzUiIHI9IjE1IiBmaWxsPSIjRUY0NDQ0IiBvcGFjaXR5PSIxIi8%2BCiAgPGNpcmNsZSBjeD0iMzA1IiBjeT0iMjM1IiByPSIzNSIgZmlsbD0iI0VGNDQ0NCIgb3BhY2l0eT0iMC40NSIvPgogIDxjaXJjbGUgY3g9IjMwNSIgY3k9IjIzNSIgcj0iNTgiIGZpbGw9IiNFRjQ0NDQiIG9wYWNpdHk9IjAuMjUiLz4KICA8Y2lyY2xlIGN4PSIzMDUiIGN5PSIyMzUiIHI9IjgyIiBmaWxsPSIjRUY0NDQ0IiBvcGFjaXR5PSIwLjEzIi8%2BCiAgPGNpcmNsZSBjeD0iMzA1IiBjeT0iMjM1IiByPSIxMDgiIGZpbGw9IiNFRjQ0NDQiIG9wYWNpdHk9IjAuMDciLz4KCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAxICh0b3AgcmlnaHQsIGxhcmdlKSAtLT4KICA8cGF0aCBkPSJNMzcwIDY4IEwzNTAgMTE1IEwzNjggMTE1IEwzNDIgMTYyIEwzOTAgMTAyIEwzNzAgMTAyIFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjk1Ii8%2BCiAgCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAyICh0b3AgcmlnaHQsIG1lZGl1bSkgLS0%2BCiAgPHBhdGggZD0iTTQxNSA4OCBMNDAwIDEyNSBMNDE0IDEyNSBMMzk0IDE2MiBMNDMyIDExMiBMNDE2IDExMiBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC45Ii8%2BCiAgCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAzIChyaWdodCBtaWRkbGUpIC0tPgogIDxwYXRoIGQ9Ik00MzUgMTg1IEw0MjIgMjE1IEw0MzMgMjE1IEw0MTYgMjQ1IEw0NDYgMjA1IEw0MzQgMjA1IFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjg4Ii8%2BCjwvc3ZnPg%3D%3D%22%2C%20%22sizes%22%3A%20%22512x512%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%7D%2C%20%7B%22src%22%3A%20%22data%3Aimage/svg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNEE5MEQ5Ii8%2BCiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI1NjNFQiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI%2BCiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM1QjlGRTgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMUQ0RUQ4Ii8%2BCiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8IS0tIEJhY2tncm91bmQgd2l0aCByb3VuZGVkIGNvcm5lcnMgLS0%2BCiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTAiIGZpbGw9InVybCgjYmcyKSIvPgoKICA8IS0tIEhlYWQgc2lsaG91ZXR0ZSBpbiBwcm9maWxlIChmYWNpbmcgbGVmdCkgLS0%2BCiAgPHBhdGggZD0iTTMxMCA4MCBDMzcwIDgwIDQyMCAxMzAgNDIwIDIwMCBDNDIwIDI0MCA0MDUgMjcwIDM4NSAyOTAgQzM3NSAzMDAgMzY1IDMwOCAzNjAgMzIwIEMzNTUgMzMyIDM1NSAzNDUgMzU1IDM2MCBMMzU1IDM5MCBDMzU1IDQwMCAzNDcgNDA4IDMzNyA0MDggTDI0MCA0MDggQzIzMCA0MDggMjIyIDQwMCAyMjIgMzkwIEwyMjIgMzcwIEMyMjIgMzU1IDIxNSAzNDIgMjA1IDMzMiBDMTg1IDMxNSAxNzIgMjkwIDE3MiAyNjAgQzE3MiAxNjIgMjMzIDgwIDMxMCA4MCBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC45NSIvPgogIAogIDwhLS0gTmVjayAtLT4KICA8cGF0aCBkPSJNMjU1IDQwOCBMMjU1IDQ0MCBDMjU1IDQ0NSAyNTggNDQ4IDI2MyA0NTAgTDMxMCA0NTUgQzMyMCA0NTYgMzMwIDQ1MCAzMzIgNDQwIEwzMzUgNDA4IFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjkiLz4KCiAgPCEtLSBIYW5kIHRvdWNoaW5nIHRlbXBsZSAtLT4KICA8cGF0aCBkPSJNMTk1IDI5NSBDMTg1IDI4NSAxNzAgMjgwIDE2MCAyODUgQzE0NSAyOTIgMTM4IDMxMCAxNDIgMzI4IEMxNDUgMzQwIDE1MiAzNTAgMTYyIDM1OCBDMTcyIDM2NiAxODIgMzcwIDE5MiAzNjggQzIwMiAzNjYgMjEwIDM1OCAyMTUgMzQ4IEMyMjIgMzMyIDIxNSAzMTAgMTk1IDI5NSBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC44OCIvPgogIDwhLS0gRmluZ2VycyAtLT4KICA8cGF0aCBkPSJNMTYwIDI5NSBDMTUwIDI4OCAxMzggMjg1IDEzMCAyOTAgQzEyMiAyOTYgMTIwIDMwOCAxMjYgMzE4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC44NSIvPgogIDxwYXRoIGQ9Ik0xNDggMzEwIEMxMzUgMzA1IDEyMiAzMDUgMTE1IDMxMiBDMTA4IDMyMCAxMTAgMzMyIDExOCAzNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjg1Ii8%2BCiAgPHBhdGggZD0iTTE0NSAzMzAgQzEzMCAzMjggMTE4IDMzMiAxMTQgMzQyIEMxMTAgMzUyIDExNiAzNjQgMTI2IDM2OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuODIiLz4KCiAgPCEtLSBFeWUgKGNsb3NlZCwganVzdCBhIGN1cnZlZCBsaW5lKSAtLT4KICA8cGF0aCBkPSJNMjU1IDE4NSBDMjYyIDE4MCAyNzIgMTgwIDI3OCAxODUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNCODJGNiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KCiAgPCEtLSBQYWluIGNpcmNsZXMgKGNvbmNlbnRyaWMsIHJlZCwgY2VudGVyZWQgYXJvdW5kIHRlbXBsZSBhcmVhIH4zMDAsMjMwKSAtLT4KICA8Y2lyY2xlIGN4PSIzMDUiIGN5PSIyMzUiIHI9IjE1IiBmaWxsPSIjRUY0NDQ0IiBvcGFjaXR5PSIxIi8%2BCiAgPGNpcmNsZSBjeD0iMzA1IiBjeT0iMjM1IiByPSIzNSIgZmlsbD0iI0VGNDQ0NCIgb3BhY2l0eT0iMC40NSIvPgogIDxjaXJjbGUgY3g9IjMwNSIgY3k9IjIzNSIgcj0iNTgiIGZpbGw9IiNFRjQ0NDQiIG9wYWNpdHk9IjAuMjUiLz4KICA8Y2lyY2xlIGN4PSIzMDUiIGN5PSIyMzUiIHI9IjgyIiBmaWxsPSIjRUY0NDQ0IiBvcGFjaXR5PSIwLjEzIi8%2BCiAgPGNpcmNsZSBjeD0iMzA1IiBjeT0iMjM1IiByPSIxMDgiIGZpbGw9IiNFRjQ0NDQiIG9wYWNpdHk9IjAuMDciLz4KCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAxICh0b3AgcmlnaHQsIGxhcmdlKSAtLT4KICA8cGF0aCBkPSJNMzcwIDY4IEwzNTAgMTE1IEwzNjggMTE1IEwzNDIgMTYyIEwzOTAgMTAyIEwzNzAgMTAyIFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjk1Ii8%2BCiAgCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAyICh0b3AgcmlnaHQsIG1lZGl1bSkgLS0%2BCiAgPHBhdGggZD0iTTQxNSA4OCBMNDAwIDEyNSBMNDE0IDEyNSBMMzk0IDE2MiBMNDMyIDExMiBMNDE2IDExMiBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC45Ii8%2BCiAgCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAzIChyaWdodCBtaWRkbGUpIC0tPgogIDxwYXRoIGQ9Ik00MzUgMTg1IEw0MjIgMjE1IEw0MzMgMjE1IEw0MTYgMjQ1IEw0NDYgMjA1IEw0MzQgMjA1IFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjg4Ii8%2BCjwvc3ZnPg%3D%3D%22%2C%20%22sizes%22%3A%20%22192x192%22%2C%20%22type%22%3A%20%22image/svg%2Bxml%22%7D%5D%7D" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNEE5MEQ5Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI1NjNFQiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM1QjlGRTgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMUQ0RUQ4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8IS0tIEJhY2tncm91bmQgd2l0aCByb3VuZGVkIGNvcm5lcnMgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTAiIGZpbGw9InVybCgjYmcyKSIvPgoKICA8IS0tIEhlYWQgc2lsaG91ZXR0ZSBpbiBwcm9maWxlIChmYWNpbmcgbGVmdCkgLS0+CiAgPHBhdGggZD0iTTMxMCA4MCBDMzcwIDgwIDQyMCAxMzAgNDIwIDIwMCBDNDIwIDI0MCA0MDUgMjcwIDM4NSAyOTAgQzM3NSAzMDAgMzY1IDMwOCAzNjAgMzIwIEMzNTUgMzMyIDM1NSAzNDUgMzU1IDM2MCBMMzU1IDM5MCBDMzU1IDQwMCAzNDcgNDA4IDMzNyA0MDggTDI0MCA0MDggQzIzMCA0MDggMjIyIDQwMCAyMjIgMzkwIEwyMjIgMzcwIEMyMjIgMzU1IDIxNSAzNDIgMjA1IDMzMiBDMTg1IDMxNSAxNzIgMjkwIDE3MiAyNjAgQzE3MiAxNjIgMjMzIDgwIDMxMCA4MCBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC45NSIvPgogIAogIDwhLS0gTmVjayAtLT4KICA8cGF0aCBkPSJNMjU1IDQwOCBMMjU1IDQ0MCBDMjU1IDQ0NSAyNTggNDQ4IDI2MyA0NTAgTDMxMCA0NTUgQzMyMCA0NTYgMzMwIDQ1MCAzMzIgNDQwIEwzMzUgNDA4IFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjkiLz4KCiAgPCEtLSBIYW5kIHRvdWNoaW5nIHRlbXBsZSAtLT4KICA8cGF0aCBkPSJNMTk1IDI5NSBDMTg1IDI4NSAxNzAgMjgwIDE2MCAyODUgQzE0NSAyOTIgMTM4IDMxMCAxNDIgMzI4IEMxNDUgMzQwIDE1MiAzNTAgMTYyIDM1OCBDMTcyIDM2NiAxODIgMzcwIDE5MiAzNjggQzIwMiAzNjYgMjEwIDM1OCAyMTUgMzQ4IEMyMjIgMzMyIDIxNSAzMTAgMTk1IDI5NSBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC44OCIvPgogIDwhLS0gRmluZ2VycyAtLT4KICA8cGF0aCBkPSJNMTYwIDI5NSBDMTUwIDI4OCAxMzggMjg1IDEzMCAyOTAgQzEyMiAyOTYgMTIwIDMwOCAxMjYgMzE4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC44NSIvPgogIDxwYXRoIGQ9Ik0xNDggMzEwIEMxMzUgMzA1IDEyMiAzMDUgMTE1IDMxMiBDMTA4IDMyMCAxMTAgMzMyIDExOCAzNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjg1Ii8+CiAgPHBhdGggZD0iTTE0NSAzMzAgQzEzMCAzMjggMTE4IDMzMiAxMTQgMzQyIEMxMTAgMzUyIDExNiAzNjQgMTI2IDM2OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuODIiLz4KCiAgPCEtLSBFeWUgKGNsb3NlZCwganVzdCBhIGN1cnZlZCBsaW5lKSAtLT4KICA8cGF0aCBkPSJNMjU1IDE4NSBDMjYyIDE4MCAyNzIgMTgwIDI3OCAxODUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNCODJGNiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KCiAgPCEtLSBQYWluIGNpcmNsZXMgKGNvbmNlbnRyaWMsIHJlZCwgY2VudGVyZWQgYXJvdW5kIHRlbXBsZSBhcmVhIH4zMDAsMjMwKSAtLT4KICA8Y2lyY2xlIGN4PSIzMDUiIGN5PSIyMzUiIHI9IjE1IiBmaWxsPSIjRUY0NDQ0IiBvcGFjaXR5PSIxIi8+CiAgPGNpcmNsZSBjeD0iMzA1IiBjeT0iMjM1IiByPSIzNSIgZmlsbD0iI0VGNDQ0NCIgb3BhY2l0eT0iMC40NSIvPgogIDxjaXJjbGUgY3g9IjMwNSIgY3k9IjIzNSIgcj0iNTgiIGZpbGw9IiNFRjQ0NDQiIG9wYWNpdHk9IjAuMjUiLz4KICA8Y2lyY2xlIGN4PSIzMDUiIGN5PSIyMzUiIHI9IjgyIiBmaWxsPSIjRUY0NDQ0IiBvcGFjaXR5PSIwLjEzIi8+CiAgPGNpcmNsZSBjeD0iMzA1IiBjeT0iMjM1IiByPSIxMDgiIGZpbGw9IiNFRjQ0NDQiIG9wYWNpdHk9IjAuMDciLz4KCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAxICh0b3AgcmlnaHQsIGxhcmdlKSAtLT4KICA8cGF0aCBkPSJNMzcwIDY4IEwzNTAgMTE1IEwzNjggMTE1IEwzNDIgMTYyIEwzOTAgMTAyIEwzNzAgMTAyIFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjk1Ii8+CiAgCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAyICh0b3AgcmlnaHQsIG1lZGl1bSkgLS0+CiAgPHBhdGggZD0iTTQxNSA4OCBMNDAwIDEyNSBMNDE0IDEyNSBMMzk0IDE2MiBMNDMyIDExMiBMNDE2IDExMiBaIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC45Ii8+CiAgCiAgPCEtLSBMaWdodG5pbmcgYm9sdCAzIChyaWdodCBtaWRkbGUpIC0tPgogIDxwYXRoIGQ9Ik00MzUgMTg1IEw0MjIgMjE1IEw0MzMgMjE1IEw0MTYgMjQ1IEw0NDYgMjA1IEw0MzQgMjA1IFoiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjg4Ii8+Cjwvc3ZnPg==" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+       CSS
+       ============================================================ -->
+  <style>
+    /* --- Variables --- */
+    :root {
+      --primary: #2563EB;
+      --success: #22C55E;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+      --text: #111827;
+      --text2: #64748B;
+      --border: #E2E8F0;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --radius-card: 24px;
+      --radius-btn: 18px;
+      --radius-modal: 32px;
+    }
+    [data-theme="dark"] {
+      --bg: #0F172A;
+      --card: #1E293B;
+      --primary: #3B82F6;
+      --text: #FFFFFF;
+      --text2: #94A3B8;
+      --border: #334155;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    /* --- Base --- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      transition: background 0.3s, color 0.3s;
+      overscroll-behavior: none;
+    }
+
+    /* --- App shell --- */
+    #app { max-width: 480px; margin: 0 auto; min-height: 100dvh; position: relative; display: flex; flex-direction: column; }
+    .screen { display: none; flex: 1; flex-direction: column; padding-bottom: 88px; overflow-y: auto; }
+    .screen.active { display: flex; }
+
+    /* --- Header --- */
+    .app-header {
+      position: sticky; top: 0; z-index: 40;
+      background: var(--card);
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    }
+
+    /* --- Cards --- */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin: 12px 16px;
+      border: 1px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:active { transform: scale(0.98); }
+
+    /* --- Stat cards --- */
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 16px 4px; }
+    .stat-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .stat-value { font-size: 28px; font-weight: 700; color: var(--primary); }
+    .stat-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+    /* --- Bottom nav --- */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      z-index: 50;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .nav-item {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      padding: 8px 4px 10px;
+      cursor: pointer;
+      gap: 4px;
+      transition: color 0.2s;
+      color: var(--text2);
+      font-size: 11px;
+      font-weight: 500;
+      border: none; background: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-item.active { color: var(--primary); }
+    .nav-item svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .nav-item.active svg { stroke-width: 2.2; }
+
+    /* --- FAB --- */
+    .fab {
+      position: fixed; right: 20px;
+      bottom: calc(72px + env(safe-area-inset-bottom));
+      width: 56px; height: 56px;
+      border-radius: 18px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      box-shadow: 0 8px 24px rgba(37,99,235,0.4);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      z-index: 49;
+      transition: transform 0.2s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .fab:active { transform: scale(0.92); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+    .fab svg { width: 28px; height: 28px; }
+
+    /* --- Bottom Sheet --- */
+    .sheet-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(2px);
+    }
+    .sheet-overlay.open { opacity: 1; pointer-events: all; }
+    .sheet {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+      width: 100%; max-width: 480px;
+      background: var(--card);
+      border-radius: var(--radius-modal) var(--radius-modal) 0 0;
+      z-index: 101;
+      transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
+      max-height: 94dvh;
+      display: flex; flex-direction: column;
+    }
+    .sheet.open { transform: translateX(-50%) translateY(0); }
+    .sheet-handle {
+      width: 40px; height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 12px auto 0;
+      flex-shrink: 0;
+    }
+    .sheet-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px 8px;
+      flex-shrink: 0;
+    }
+    .sheet-title { font-size: 18px; font-weight: 700; }
+    .sheet-body { overflow-y: auto; padding: 0 20px 24px; flex: 1; }
+
+    /* --- Form elements --- */
+    .form-section { margin-bottom: 24px; }
+    .form-label { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: block; }
+    .form-input {
+      width: 100%; padding: 14px 16px;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 14px; font-size: 16px; color: var(--text);
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--primary); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+    /* Intensity slider */
+    .intensity-slider {
+      width: 100%;
+      accent-color: var(--primary);
+      height: 6px;
+      cursor: pointer;
+    }
+    .intensity-display {
+      display: flex; align-items: center; justify-content: center;
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      font-size: 28px; font-weight: 700;
+      margin: 0 auto 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* Tag pills */
+    .tag-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      padding: 8px 14px;
+      border-radius: 50px;
+      font-size: 13px; font-weight: 500;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .tag.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* Mood selector */
+    .mood-grid { display: flex; justify-content: space-between; gap: 8px; }
+    .mood-btn {
+      flex: 1; font-size: 24px;
+      padding: 10px 4px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      text-align: center;
+    }
+    .mood-btn.selected { border-color: var(--primary); background: rgba(37,99,235,0.1); transform: scale(1.1); }
+
+    /* Toggle */
+    .toggle-wrap { display: flex; gap: 8px; }
+    .toggle-btn {
+      flex: 1; padding: 12px 8px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px; font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .toggle-btn.selected { background: var(--primary); border-color: var(--primary); color: white; }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%; padding: 16px;
+      border-radius: var(--radius-btn);
+      background: var(--primary);
+      color: white;
+      font-size: 16px; font-weight: 600;
+      border: none; cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+      font-family: inherit;
+    }
+    .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+    .btn-ghost {
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px; font-weight: 500;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .btn-danger {
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: rgba(239,68,68,0.1);
+      color: var(--danger);
+      font-size: 14px; font-weight: 500;
+      border: 1.5px solid rgba(239,68,68,0.3);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    /* --- Calendar --- */
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 0 16px; }
+    .cal-day-name { text-align: center; font-size: 11px; font-weight: 600; color: var(--text2); padding: 4px 0; }
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+    }
+    .cal-day.empty { cursor: default; }
+    .cal-day.today { font-weight: 700; box-shadow: 0 0 0 2px var(--primary); }
+    .cal-day.selected { background: var(--primary) !important; color: white !important; }
+    .cal-day.pain-0 { background: rgba(34,197,94,0.15); color: var(--text); }
+    .cal-day.pain-low { background: rgba(245,158,11,0.2); color: #92400E; }
+    .cal-day.pain-mid { background: rgba(249,115,22,0.2); color: #9A3412; }
+    .cal-day.pain-high { background: rgba(239,68,68,0.2); color: #991B1B; }
+
+    /* --- History search --- */
+    .search-bar {
+      display: flex; gap: 8px; margin: 12px 16px;
+    }
+    .search-input {
+      flex: 1; padding: 12px 16px;
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: 14px; font-size: 15px; color: var(--text);
+      font-family: inherit; outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--primary); }
+
+    /* --- Entry card --- */
+    .entry-card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      padding: 16px 20px;
+      margin: 8px 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .entry-card:active { transform: scale(0.98); }
+    .entry-intensity-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      font-size: 16px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .entry-actions { display: flex; gap: 8px; }
+
+    /* --- Charts --- */
+    .chart-wrap { margin: 0 16px 16px; background: var(--card); border-radius: var(--radius-card); padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .chart-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+
+    /* --- Settings --- */
+    .settings-section { margin: 16px 16px 0; }
+    .settings-title { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; padding: 0 4px; }
+    .settings-card { background: var(--card); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; }
+    .settings-row {
+      display: flex; align-items: center; padding: 16px 18px;
+      border-bottom: 1px solid var(--border); gap: 14px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row:active { background: var(--bg); }
+    .settings-row-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .settings-row-icon svg { width: 20px; height: 20px; stroke: white; fill: none; stroke-width: 2; }
+
+    /* Theme selector */
+    .theme-selector { display: flex; gap: 8px; }
+    .theme-btn {
+      flex: 1; padding: 10px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .theme-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(37,99,235,0.08); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #1E293B; color: white;
+      padding: 12px 20px; border-radius: 14px;
+      font-size: 14px; font-weight: 500;
+      z-index: 200; opacity: 0;
+      transition: all 0.3s;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Confirm dialog */
+    .dialog-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 150;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .dialog-overlay.open { opacity: 1; pointer-events: all; }
+    .dialog {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 28px 24px;
+      margin: 20px;
+      max-width: 320px; width: 100%;
+      transform: scale(0.9);
+      transition: transform 0.2s;
+    }
+    .dialog-overlay.open .dialog { transform: scale(1); }
+
+    /* Empty state */
+    .empty-state {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 60px 32px;
+      color: var(--text2);
+      text-align: center;
+      gap: 16px;
+    }
+    .empty-state svg { width: 64px; height: 64px; stroke: var(--text2); fill: none; stroke-width: 1.5; opacity: 0.5; }
+
+    /* Section dividers */
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 20px 8px;
+    }
+    .section-title { font-size: 18px; font-weight: 700; }
+
+    /* Scroll fix */
+    .sheet-body::-webkit-scrollbar { display: none; }
+    .screen::-webkit-scrollbar { display: none; }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    /* Greeting */
+    .greeting { font-size: 22px; font-weight: 700; }
+    .greeting-sub { font-size: 14px; color: var(--text2); margin-top: 2px; }
+
+    /* Big add button */
+    .btn-new-entry {
+      margin: 8px 16px 0;
+      background: linear-gradient(135deg, var(--primary), #1D4ED8);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex; align-items: center; gap: 16px;
+      border: none; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(37,99,235,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: calc(100% - 32px);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-new-entry:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+    .btn-new-entry-icon {
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .btn-new-entry-icon svg { width: 28px; height: 28px; stroke: white; fill: none; stroke-width: 2; }
+    .btn-new-entry-text { text-align: left; }
+    .btn-new-entry-title { font-size: 16px; font-weight: 700; color: white; }
+    .btn-new-entry-sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+
+    /* Period filter */
+    .period-filter { display: flex; gap: 8px; padding: 8px 16px; overflow-x: auto; }
+    .period-btn {
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 13px; font-weight: 500;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .period-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+    /* Analytics stat row */
+    .analytics-stat { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .analytics-stat:last-child { border-bottom: none; }
+    .analytics-stat-label { font-size: 14px; color: var(--text2); }
+    .analytics-stat-value { font-size: 16px; font-weight: 700; }
+
+    /* Pain color helpers */
+    .pain-color-0 { color: var(--success); }
+    .pain-color-low { color: var(--warning); }
+    .pain-color-mid { color: #F97316; }
+    .pain-color-high { color: var(--danger); }
+    .pain-bg-0 { background: rgba(34,197,94,0.15); }
+    .pain-bg-low { background: rgba(245,158,11,0.15); }
+    .pain-bg-mid { background: rgba(249,115,22,0.15); }
+    .pain-bg-high { background: rgba(239,68,68,0.15); }
+
+    /* Anim */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeInUp 0.3s ease both; }
+
+    /* Install prompt */
+    .install-banner {
+      margin: 8px 16px;
+      background: linear-gradient(135deg, #7C3AED, #5B21B6);
+      border-radius: 20px;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px;
+      position: relative;
+    }
+    .install-banner svg { width: 32px; height: 32px; stroke: white; fill: none; stroke-width: 1.8; flex-shrink: 0; }
+    .install-close { position: absolute; top: 10px; right: 12px; background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 18px; padding: 4px; }
+
+    /* Responsive for wider screens */
+    @media (min-width: 480px) {
+      .fab { right: calc(50% - 220px); }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ============================================================
+       SCREEN: TODAY
+       ============================================================ -->
+  <div id="screen-today" class="screen active">
+    <div class="app-header">
+      <div class="greeting" id="greeting">Добрый день</div>
+      <div class="greeting-sub" id="todayDate"></div>
+    </div>
+
+    <div style="height:16px"></div>
+
+    <!-- Install banner -->
+    <div class="install-banner" id="installBanner" style="display:none">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:white">Установить приложение</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:2px">Добавьте на главный экран для быстрого доступа</div>
+      </div>
+      <button class="install-close" id="installBtn" onclick="pwa.install()">Установить</button>
+      <button class="install-close" style="top:6px;right:6px" onclick="document.getElementById('installBanner').style.display='none'">✕</button>
+    </div>
+
+    <!-- New entry button -->
+    <button class="btn-new-entry" onclick="openSheet()">
+      <div class="btn-new-entry-icon">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+      </div>
+      <div class="btn-new-entry-text">
+        <div class="btn-new-entry-title">Записать приступ</div>
+        <div class="btn-new-entry-sub">Быстрая запись · займёт ~15 сек</div>
+      </div>
+    </button>
+
+    <!-- Stats grid -->
+    <div class="stat-grid" style="margin-top:16px" id="todayStats">
+      <div class="stat-card">
+        <div class="stat-value" id="statToday">0</div>
+        <div class="stat-label">Приступов сегодня</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statMonth">0</div>
+        <div class="stat-label">За последние 30 дней</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statAvgInt">—</div>
+        <div class="stat-label">Средняя интенсивность</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statDaysFree">0</div>
+        <div class="stat-label">Дней без боли</div>
+      </div>
+    </div>
+
+    <!-- Recent entries -->
+    <div class="section-header" style="margin-top:8px">
+      <span class="section-title">Последние записи</span>
+    </div>
+    <div id="recentList">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <div>
+          <div style="font-size:16px;font-weight:600;color:var(--text)">Записей пока нет</div>
+          <div style="font-size:14px;margin-top:4px">Нажмите кнопку выше, чтобы добавить первую запись</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: HISTORY
+       ============================================================ -->
+  <div id="screen-history" class="screen">
+    <div class="app-header">
+      <div style="font-size:20px;font-weight:700">История</div>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" type="search" placeholder="Поиск по заметкам, лекарствам..." id="searchInput" oninput="ui.filterHistory()" />
+    </div>
+    <div class="period-filter" id="historyFilter">
+      <button class="period-btn active" onclick="ui.setHistoryPeriod('all',this)">Все</button>
+      <button class="period-btn" onclick="ui.setHistoryPeriod('7',this)">7 дней</button>
+      <button class="period-btn" onclick="ui.setHistoryPeriod('30',this)">30 дней</button>
+      <button class="period-btn" onclick="ui.setHistoryPeriod('90',this)">3 месяца</button>
+    </div>
+    <div id="historyList"></div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: CALENDAR
+       ============================================================ -->
+  <div id="screen-calendar" class="screen">
+    <div class="app-header">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <button class="btn-ghost" style="padding:8px 14px" onclick="calendar.prev()">‹</button>
+        <div style="font-size:18px;font-weight:700" id="calMonthLabel"></div>
+        <button class="btn-ghost" style="padding:8px 14px" onclick="calendar.next()">›</button>
+      </div>
+    </div>
+    <div style="height:12px"></div>
+    <div class="cal-grid" id="calDayNames"></div>
+    <div style="height:8px"></div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div id="calDayEntries" style="margin-top:8px"></div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: ANALYTICS
+       ============================================================ -->
+  <div id="screen-analytics" class="screen">
+    <div class="app-header">
+      <div style="font-size:20px;font-weight:700">Аналитика</div>
+    </div>
+    <div class="period-filter">
+      <button class="period-btn active" onclick="analytics.setPeriod(7,this)">7 дней</button>
+      <button class="period-btn" onclick="analytics.setPeriod(30,this)">30 дней</button>
+      <button class="period-btn" onclick="analytics.setPeriod(90,this)">3 месяца</button>
+      <button class="period-btn" onclick="analytics.setPeriod(365,this)">Год</button>
+    </div>
+
+    <!-- Summary stats -->
+    <div class="card" id="analyticsSummary"></div>
+
+    <!-- Charts -->
+    <div class="chart-wrap">
+      <div class="chart-title">Интенсивность по дням</div>
+      <canvas id="chartIntensity" height="180"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Приступы по месяцам</div>
+      <canvas id="chartMonthly" height="180"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Частые триггеры</div>
+      <canvas id="chartTriggers" height="200"></canvas>
+    </div>
+    <div class="chart-wrap" style="margin-bottom:16px">
+      <div class="chart-title">Симптомы</div>
+      <canvas id="chartSymptoms" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: SETTINGS
+       ============================================================ -->
+  <div id="screen-settings" class="screen">
+    <div class="app-header">
+      <div style="font-size:20px;font-weight:700">Настройки</div>
+    </div>
+
+    <div class="settings-section" style="margin-top:20px">
+      <div class="settings-title">Тема</div>
+      <div class="theme-selector" id="themeSelector">
+        <button class="theme-btn active" onclick="theme.set('light',this)">☀️ Светлая</button>
+        <button class="theme-btn" onclick="theme.set('dark',this)">🌙 Тёмная</button>
+        <button class="theme-btn" onclick="theme.set('auto',this)">🌗 Авто</button>
+      </div>
+    </div>
+
+    <div class="settings-section" style="margin-top:20px">
+      <div class="settings-title">Данные</div>
+      <div class="settings-card">
+        <div class="settings-row" onclick="exportData('json')">
+          <div class="settings-row-icon" style="background:#22C55E">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600">Экспорт JSON</div>
+            <div style="font-size:12px;color:var(--text2)">Все данные в формате JSON</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div class="settings-row" onclick="exportData('csv')">
+          <div class="settings-row-icon" style="background:#F59E0B">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600">Экспорт CSV</div>
+            <div style="font-size:12px;color:var(--text2)">Для открытия в Excel / Таблицах</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <div class="settings-row" onclick="document.getElementById('importFile').click()">
+          <div class="settings-row-icon" style="background:#2563EB">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4-4m0 0l4 4m-4-4v12"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600">Импорт данных</div>
+            <div style="font-size:12px;color:var(--text2)">JSON или CSV</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+        <input type="file" id="importFile" accept=".json,.csv" style="display:none" onchange="importData(event)" />
+        <div class="settings-row" onclick="confirmClear()">
+          <div class="settings-row-icon" style="background:#EF4444">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600;color:var(--danger)">Очистить дневник</div>
+            <div style="font-size:12px;color:var(--text2)">Удалить все записи</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section" style="margin-top:20px;margin-bottom:32px">
+      <div class="settings-title">О приложении</div>
+      <div class="settings-card">
+        <div class="settings-row" style="cursor:default">
+          <div class="settings-row-icon" style="background:linear-gradient(135deg,#2563EB,#7C3AED)">
+            <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600">Дневник головной боли</div>
+            <div style="font-size:12px;color:var(--text2)">Версия 1.0 · PWA</div>
+          </div>
+        </div>
+        <div class="settings-row" style="cursor:default">
+          <div style="flex:1">
+            <div style="font-size:13px;color:var(--text2);line-height:1.6">Все данные хранятся только на вашем устройстве. Приложение не отправляет данные в интернет и не использует внешние серверы.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       BOTTOM NAV
+       ============================================================ -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-today" onclick="navigate('today')">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Сегодня
+    </button>
+    <button class="nav-item" id="nav-history" onclick="navigate('history')">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      История
+    </button>
+    <button class="nav-item" id="nav-calendar" onclick="navigate('calendar')">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      Календарь
+    </button>
+    <button class="nav-item" id="nav-analytics" onclick="navigate('analytics')">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      Аналитика
+    </button>
+    <button class="nav-item" id="nav-settings" onclick="navigate('settings')">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      Настройки
+    </button>
+  </nav>
+
+  <!-- FAB -->
+  <button class="fab" onclick="openSheet()" title="Новая запись">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><path d="M12 4v16m8-8H4"/></svg>
+  </button>
+
+  <!-- ============================================================
+       BOTTOM SHEET: FORM
+       ============================================================ -->
+  <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="sheet-title" id="sheetTitle">Новая запись</div>
+      <button class="btn-ghost" onclick="closeSheet()" style="padding:8px 14px">✕</button>
+    </div>
+    <div class="sheet-body">
+
+      <!-- Date & Time -->
+      <div class="form-section">
+        <label class="form-label">Дата и время</label>
+        <div class="form-row">
+          <input type="date" class="form-input" id="fDate" />
+          <input type="time" class="form-input" id="fTimeStart" />
+        </div>
+        <div class="form-row" style="margin-top:10px">
+          <input type="time" class="form-input" id="fTimeEnd" placeholder="Конец" />
+          <div style="position:relative">
+            <input type="text" class="form-input" id="fDuration" readonly placeholder="Длительность" style="background:var(--bg)" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Intensity -->
+      <div class="form-section">
+        <label class="form-label">Интенсивность</label>
+        <div class="intensity-display" id="intensityDisplay">5</div>
+        <input type="range" class="intensity-slider" id="fIntensity" min="1" max="10" value="5"
+          oninput="ui.updateIntensity(this.value)" />
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-top:4px">
+          <span>1 — слабая</span><span>10 — невыносимая</span>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="form-section">
+        <label class="form-label">Локализация</label>
+        <div class="tag-grid" id="fLocation"></div>
+      </div>
+
+      <!-- Character -->
+      <div class="form-section">
+        <label class="form-label">Характер боли</label>
+        <div class="tag-grid" id="fCharacter"></div>
+      </div>
+
+      <!-- Symptoms -->
+      <div class="form-section">
+        <label class="form-label">Симптомы</label>
+        <div class="tag-grid" id="fSymptoms"></div>
+      </div>
+
+      <!-- Aura -->
+      <div class="form-section">
+        <label class="form-label">Аура</label>
+        <div class="toggle-wrap" id="fAuraToggle">
+          <button class="toggle-btn selected" onclick="ui.toggleAura('no')">Нет</button>
+          <button class="toggle-btn" onclick="ui.toggleAura('yes')">Да</button>
+        </div>
+        <div id="fAuraDetails" style="display:none;margin-top:10px">
+          <div class="tag-grid" id="fAuraTags"></div>
+        </div>
+      </div>
+
+      <!-- Triggers -->
+      <div class="form-section">
+        <label class="form-label">Триггеры</label>
+        <div class="tag-grid" id="fTriggers"></div>
+      </div>
+
+      <!-- Medicine -->
+      <div class="form-section">
+        <label class="form-label">Лекарство</label>
+        <input type="text" class="form-input" id="fMedicine" placeholder="Название препарата" />
+        <div class="form-row" style="margin-top:10px">
+          <input type="text" class="form-input" id="fDosage" placeholder="Дозировка" />
+          <input type="text" class="form-input" id="fMedEffect" placeholder="Эффект через..." />
+        </div>
+      </div>
+
+      <!-- Medicine effect -->
+      <div class="form-section">
+        <label class="form-label">Эффект от лекарства</label>
+        <div class="toggle-wrap" id="fMedResult">
+          <button class="toggle-btn" onclick="ui.selectMedResult('none',this)">Не помогло</button>
+          <button class="toggle-btn" onclick="ui.selectMedResult('partial',this)">Частично</button>
+          <button class="toggle-btn" onclick="ui.selectMedResult('full',this)">Полностью</button>
+        </div>
+      </div>
+
+      <!-- What helped -->
+      <div class="form-section">
+        <label class="form-label">Что помогло</label>
+        <div class="tag-grid" id="fHelped"></div>
+      </div>
+
+      <!-- Mood -->
+      <div class="form-section">
+        <label class="form-label">Настроение</label>
+        <div class="mood-grid" id="fMood">
+          <button class="mood-btn" onclick="ui.selectMood('😀',this)">😀</button>
+          <button class="mood-btn" onclick="ui.selectMood('🙂',this)">🙂</button>
+          <button class="mood-btn" onclick="ui.selectMood('😐',this)">😐</button>
+          <button class="mood-btn" onclick="ui.selectMood('🙁',this)">🙁</button>
+          <button class="mood-btn" onclick="ui.selectMood('😭',this)">😭</button>
+        </div>
+      </div>
+
+      <!-- Stress -->
+      <div class="form-section">
+        <label class="form-label">Уровень стресса: <span id="stressValue">5</span>/10</label>
+        <input type="range" class="intensity-slider" id="fStress" min="1" max="10" value="5"
+          oninput="document.getElementById('stressValue').textContent=this.value" />
+      </div>
+
+      <!-- Sleep -->
+      <div class="form-section">
+        <label class="form-label">Сон (часов)</label>
+        <input type="number" class="form-input" id="fSleep" min="0" max="24" step="0.5" placeholder="8" />
+      </div>
+
+      <!-- Vitals -->
+      <div class="form-section">
+        <label class="form-label">Показатели</label>
+        <div class="form-row">
+          <input type="text" class="form-input" id="fBP" placeholder="АД (120/80)" />
+          <input type="number" class="form-input" id="fTemp" placeholder="Темп. °C" step="0.1" />
+        </div>
+      </div>
+
+      <!-- Comment -->
+      <div class="form-section">
+        <label class="form-label">Комментарий</label>
+        <textarea class="form-input" id="fComment" rows="3" style="resize:none;height:auto" placeholder="Дополнительные заметки..."></textarea>
+      </div>
+
+      <!-- Save -->
+      <button class="btn-primary" onclick="saveEntry()" style="margin-top:8px" id="saveBtn">
+        Сохранить запись
+      </button>
+      <div style="height:20px"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ENTRY DETAIL SHEET
+       ============================================================ -->
+  <div class="sheet-overlay" id="detailOverlay" onclick="closeDetail()"></div>
+  <div class="sheet" id="detailSheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="sheet-title">Запись</div>
+      <button class="btn-ghost" onclick="closeDetail()" style="padding:8px 14px">✕</button>
+    </div>
+    <div class="sheet-body" id="detailBody"></div>
+  </div>
+
+  <!-- ============================================================
+       CONFIRM DIALOG
+       ============================================================ -->
+  <div class="dialog-overlay" id="dialogOverlay">
+    <div class="dialog">
+      <div style="font-size:18px;font-weight:700;margin-bottom:8px" id="dialogTitle">Удалить запись?</div>
+      <div style="font-size:14px;color:var(--text2);margin-bottom:24px" id="dialogMsg">Это действие нельзя отменить.</div>
+      <div style="display:flex;gap:12px">
+        <button class="btn-ghost" style="flex:1" onclick="closeDialog()">Отмена</button>
+        <button class="btn-danger" style="flex:1" id="dialogConfirmBtn">Удалить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+</div><!-- /#app -->
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+'use strict';
+
+// ================================================================
+// STORAGE — абстракция над LocalStorage (заменимо на IndexedDB)
+// ================================================================
+const storage = {
+  KEY: 'headache_diary_v1',
+  SETTINGS_KEY: 'headache_diary_settings_v1',
+
+  load() {
+    try {
+      return JSON.parse(localStorage.getItem(this.KEY) || '[]');
+    } catch { return []; }
+  },
+
+  save(entries) {
+    try { localStorage.setItem(this.KEY, JSON.stringify(entries)); } catch(e) { console.error(e); }
+  },
+
+  loadSettings() {
+    try {
+      return JSON.parse(localStorage.getItem(this.SETTINGS_KEY) || '{}');
+    } catch { return {}; }
+  },
+
+  saveSettings(s) {
+    try { localStorage.setItem(this.SETTINGS_KEY, JSON.stringify(s)); } catch(e) {}
+  },
+
+  addEntry(entry) {
+    const entries = this.load();
+    entries.unshift(entry);
+    this.save(entries);
+    return entries;
+  },
+
+  updateEntry(id, data) {
+    const entries = this.load();
+    const idx = entries.findIndex(e => e.id === id);
+    if (idx !== -1) entries[idx] = { ...entries[idx], ...data };
+    this.save(entries);
+    return entries;
+  },
+
+  deleteEntry(id) {
+    const entries = this.load().filter(e => e.id !== id);
+    this.save(entries);
+    return entries;
+  }
+};
+
+// ================================================================
+// CONSTANTS
+// ================================================================
+const LOCATIONS = ['Лоб','Левый висок','Правый висок','Оба виска','Темя','Затылок','Глаз','Вся голова','Шея'];
+const CHARACTERS = ['Пульсирующая','Давящая','Ноющая','Колющая','Жгучая','Распирающая'];
+const SYMPTOMS = ['Тошнота','Рвота','Светобоязнь','Шумобоязнь','Головокружение','Слабость','Онемение','Нарушение речи','Сонливость','Потливость','Слезотечение','Насморк','Другое'];
+const AURA_TYPES = ['Мерцание','Вспышки','Зигзаги','Онемение','Нарушение речи','Другое'];
+const TRIGGERS = ['Недосып','Стресс','Алкоголь','Кофе','Красное вино','Шоколад','Голод','Обезвоживание','Яркий свет','Громкий звук','Жара','Холод','Простуда','Менструация','Погода','Физическая нагрузка','Другое'];
+const HELPED = ['Сон','Душ','Тёмная комната','Компресс','Прогулка','Массаж','Ничего'];
+const MOODS = ['😀','🙂','😐','🙁','😭'];
+
+// ================================================================
+// STATE
+// ================================================================
+const state = {
+  entries: [],
+  editingId: null,
+  selectedMood: '',
+  selectedMedResult: '',
+  auraEnabled: false,
+  historyPeriod: 'all',
+  analyticsPeriod: 30,
+  calYear: new Date().getFullYear(),
+  calMonth: new Date().getMonth(),
+  charts: {},
+};
+
+// ================================================================
+// UI HELPERS
+// ================================================================
+const ui = {
+  buildTagGroup(containerId, items, multiSelect = true) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    items.forEach(item => {
+      const el = document.createElement('button');
+      el.className = 'tag';
+      el.textContent = item;
+      el.type = 'button';
+      el.onclick = () => {
+        if (multiSelect) {
+          el.classList.toggle('selected');
+        } else {
+          container.querySelectorAll('.tag').forEach(t => t.classList.remove('selected'));
+          el.classList.add('selected');
+        }
+      };
+      container.appendChild(el);
+    });
+  },
+
+  getSelected(containerId) {
+    return [...document.querySelectorAll(`#${containerId} .tag.selected`)].map(t => t.textContent);
+  },
+
+  setSelected(containerId, values = []) {
+    document.querySelectorAll(`#${containerId} .tag`).forEach(t => {
+      t.classList.toggle('selected', values.includes(t.textContent));
+    });
+  },
+
+  updateIntensity(val) {
+    const n = parseInt(val);
+    const el = document.getElementById('intensityDisplay');
+    el.textContent = n;
+    let bg, color;
+    if (n <= 3) { bg = 'rgba(34,197,94,0.15)'; color = '#16A34A'; }
+    else if (n <= 6) { bg = 'rgba(245,158,11,0.15)'; color = '#D97706'; }
+    else if (n <= 8) { bg = 'rgba(249,115,22,0.15)'; color = '#EA580C'; }
+    else { bg = 'rgba(239,68,68,0.15)'; color = '#DC2626'; }
+    el.style.background = bg;
+    el.style.color = color;
+  },
+
+  toggleAura(val) {
+    state.auraEnabled = val === 'yes';
+    document.querySelectorAll('#fAuraToggle .toggle-btn').forEach(b => {
+      b.classList.toggle('selected', b.textContent.trim() === (val === 'yes' ? 'Да' : 'Нет'));
+    });
+    document.getElementById('fAuraDetails').style.display = state.auraEnabled ? 'block' : 'none';
+  },
+
+  selectMood(emoji, btn) {
+    state.selectedMood = emoji;
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  },
+
+  selectMedResult(val, btn) {
+    state.selectedMedResult = val;
+    document.querySelectorAll('#fMedResult .toggle-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  },
+
+  setHistoryPeriod(period, btn) {
+    state.historyPeriod = period;
+    document.querySelectorAll('#historyFilter .period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    this.renderHistory();
+  },
+
+  filterHistory() {
+    this.renderHistory();
+  },
+
+  renderHistory() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    let entries = storage.load();
+
+    if (state.historyPeriod !== 'all') {
+      const days = parseInt(state.historyPeriod);
+      const cutoff = Date.now() - days * 86400000;
+      entries = entries.filter(e => new Date(e.date).getTime() >= cutoff);
+    }
+
+    if (query) {
+      entries = entries.filter(e =>
+        (e.comment || '').toLowerCase().includes(query) ||
+        (e.medicine || '').toLowerCase().includes(query) ||
+        (e.location || []).join(' ').toLowerCase().includes(query)
+      );
+    }
+
+    const list = document.getElementById('historyList');
+    if (!entries.length) {
+      list.innerHTML = `<div class="empty-state">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <div style="font-size:16px;font-weight:600;color:var(--text)">Записей не найдено</div>
+      </div>`;
+      return;
+    }
+    list.innerHTML = entries.map(e => renderEntryCard(e, true)).join('');
+  },
+
+  renderToday() {
+    const today = todayStr();
+    const all = storage.load();
+    const todayEntries = all.filter(e => e.date === today);
+    const last30 = all.filter(e => {
+      return new Date(e.date).getTime() >= Date.now() - 30 * 86400000;
+    });
+
+    document.getElementById('statToday').textContent = todayEntries.length;
+    document.getElementById('statMonth').textContent = last30.length;
+
+    const avgInt = todayEntries.length
+      ? (todayEntries.reduce((s, e) => s + (e.intensity || 0), 0) / todayEntries.length).toFixed(1)
+      : '—';
+    document.getElementById('statAvgInt').textContent = avgInt;
+
+    // Days free in last 30
+    const painDays = new Set(last30.map(e => e.date));
+    const totalDays = Math.min(30, Math.ceil((Date.now() - new Date(all[all.length - 1]?.date || Date.now())) / 86400000) + 1);
+    document.getElementById('statDaysFree').textContent = Math.max(0, 30 - painDays.size);
+
+    // Recent list
+    const recent = all.slice(0, 5);
+    const list = document.getElementById('recentList');
+    if (!recent.length) {
+      list.innerHTML = `<div class="empty-state">
+        <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <div>
+          <div style="font-size:16px;font-weight:600;color:var(--text)">Записей пока нет</div>
+          <div style="font-size:14px;margin-top:4px">Нажмите кнопку выше, чтобы добавить первую запись</div>
+        </div>
+      </div>`;
+      return;
+    }
+    list.innerHTML = recent.map(e => renderEntryCard(e, false)).join('');
+  }
+};
+
+// ================================================================
+// ENTRY CARD RENDERING
+// ================================================================
+function painClass(intensity) {
+  if (!intensity) return 'pain-0';
+  if (intensity <= 3) return 'pain-low';
+  if (intensity <= 6) return 'pain-mid';
+  return 'pain-high';
+}
+
+function painBgClass(intensity) {
+  if (!intensity) return 'pain-bg-0';
+  if (intensity <= 3) return 'pain-bg-low';
+  if (intensity <= 6) return 'pain-bg-mid';
+  return 'pain-bg-high';
+}
+
+function renderEntryCard(entry, showActions) {
+  const d = new Date(entry.date + 'T00:00:00');
+  const dateStr = d.toLocaleDateString('ru-RU', { day:'numeric', month:'short', year:'numeric' });
+  const pClass = painClass(entry.intensity);
+  const bgClass = painBgClass(entry.intensity);
+
+  const tags = [];
+  if (entry.location?.length) tags.push(entry.location[0]);
+  if (entry.medicine) tags.push(entry.medicine);
+  if (entry.character?.length) tags.push(entry.character[0]);
+
+  const actions = showActions ? `
+    <div class="entry-actions" style="margin-top:12px">
+      <button class="btn-ghost" style="padding:8px 14px;font-size:13px" onclick="event.stopPropagation();openEdit('${entry.id}')">Изменить</button>
+      <button class="btn-danger" style="padding:8px 14px;font-size:13px" onclick="event.stopPropagation();confirmDelete('${entry.id}')">Удалить</button>
+    </div>` : '';
+
+  return `<div class="entry-card fade-in" onclick="showDetail('${entry.id}')">
+    <div style="display:flex;align-items:flex-start;gap:14px">
+      <div class="entry-intensity-badge ${bgClass}">
+        <span class="${pClass}">${entry.intensity || '?'}</span>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <div style="font-size:15px;font-weight:700">${dateStr}</div>
+          <div style="font-size:12px;color:var(--text2);flex-shrink:0">${entry.timeStart || ''}${entry.timeEnd ? ' – ' + entry.timeEnd : ''}</div>
+        </div>
+        ${tags.length ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">${tags.map(t => `<span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:3px 10px;font-size:12px;color:var(--text2)">${t}</span>`).join('')}</div>` : ''}
+        ${entry.comment ? `<div style="font-size:13px;color:var(--text2);margin-top:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${entry.comment}</div>` : ''}
+      </div>
+    </div>
+    ${actions}
+  </div>`;
+}
+
+// ================================================================
+// SHEET / FORM
+// ================================================================
+function openSheet(editId = null) {
+  state.editingId = editId;
+  state.selectedMood = '';
+  state.selectedMedResult = '';
+  state.auraEnabled = false;
+
+  // Build tag groups
+  ui.buildTagGroup('fLocation', LOCATIONS);
+  ui.buildTagGroup('fCharacter', CHARACTERS, false);
+  ui.buildTagGroup('fSymptoms', SYMPTOMS);
+  ui.buildTagGroup('fAuraTags', AURA_TYPES);
+  ui.buildTagGroup('fTriggers', TRIGGERS);
+  ui.buildTagGroup('fHelped', HELPED);
+
+  if (editId) {
+    const entry = storage.load().find(e => e.id === editId);
+    if (!entry) return;
+    document.getElementById('sheetTitle').textContent = 'Изменить запись';
+    document.getElementById('saveBtn').textContent = 'Сохранить изменения';
+    populateForm(entry);
+  } else {
+    document.getElementById('sheetTitle').textContent = 'Новая запись';
+    document.getElementById('saveBtn').textContent = 'Сохранить запись';
+    resetForm();
+  }
+
+  ui.updateIntensity(document.getElementById('fIntensity').value);
+
+  document.getElementById('sheetOverlay').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSheet() {
+  document.getElementById('sheetOverlay').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function resetForm() {
+  const now = new Date();
+  document.getElementById('fDate').value = todayStr();
+  document.getElementById('fTimeStart').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  document.getElementById('fTimeEnd').value = '';
+  document.getElementById('fDuration').value = '';
+  document.getElementById('fIntensity').value = 5;
+  document.getElementById('fMedicine').value = '';
+  document.getElementById('fDosage').value = '';
+  document.getElementById('fMedEffect').value = '';
+  document.getElementById('fSleep').value = '';
+  document.getElementById('fBP').value = '';
+  document.getElementById('fTemp').value = '';
+  document.getElementById('fComment').value = '';
+  document.getElementById('fStress').value = 5;
+  document.getElementById('stressValue').textContent = '5';
+  ui.toggleAura('no');
+  document.getElementById('fAuraDetails').style.display = 'none';
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#fMedResult .toggle-btn').forEach(b => b.classList.remove('selected'));
+
+  // Auto-calc duration
+  document.getElementById('fTimeEnd').oninput = calcDuration;
+  document.getElementById('fTimeStart').oninput = calcDuration;
+}
+
+function populateForm(e) {
+  document.getElementById('fDate').value = e.date || todayStr();
+  document.getElementById('fTimeStart').value = e.timeStart || '';
+  document.getElementById('fTimeEnd').value = e.timeEnd || '';
+  document.getElementById('fDuration').value = e.duration || '';
+  document.getElementById('fIntensity').value = e.intensity || 5;
+  document.getElementById('fMedicine').value = e.medicine || '';
+  document.getElementById('fDosage').value = e.dosage || '';
+  document.getElementById('fMedEffect').value = e.medEffect || '';
+  document.getElementById('fSleep').value = e.sleep || '';
+  document.getElementById('fBP').value = e.bp || '';
+  document.getElementById('fTemp').value = e.temp || '';
+  document.getElementById('fComment').value = e.comment || '';
+  document.getElementById('fStress').value = e.stress || 5;
+  document.getElementById('stressValue').textContent = e.stress || 5;
+
+  setTimeout(() => {
+    ui.setSelected('fLocation', e.location || []);
+    ui.setSelected('fCharacter', e.character || []);
+    ui.setSelected('fSymptoms', e.symptoms || []);
+    ui.setSelected('fTriggers', e.triggers || []);
+    ui.setSelected('fHelped', e.helped || []);
+    if (e.aura) {
+      ui.toggleAura('yes');
+      ui.setSelected('fAuraTags', e.auraTags || []);
+    }
+    if (e.mood) {
+      state.selectedMood = e.mood;
+      document.querySelectorAll('.mood-btn').forEach(b => {
+        if (b.textContent === e.mood) b.classList.add('selected');
+      });
+    }
+    if (e.medResult) {
+      state.selectedMedResult = e.medResult;
+      document.querySelectorAll('#fMedResult .toggle-btn').forEach(b => {
+        const map = { none: 'Не помогло', partial: 'Частично', full: 'Полностью' };
+        if (b.textContent.trim() === map[e.medResult]) b.classList.add('selected');
+      });
+    }
+  }, 50);
+
+  document.getElementById('fTimeEnd').oninput = calcDuration;
+  document.getElementById('fTimeStart').oninput = calcDuration;
+}
+
+function calcDuration() {
+  const start = document.getElementById('fTimeStart').value;
+  const end = document.getElementById('fTimeEnd').value;
+  if (!start || !end) { document.getElementById('fDuration').value = ''; return; }
+  const [sh, sm] = start.split(':').map(Number);
+  const [eh, em] = end.split(':').map(Number);
+  let diff = (eh * 60 + em) - (sh * 60 + sm);
+  if (diff < 0) diff += 1440;
+  const h = Math.floor(diff / 60);
+  const m = diff % 60;
+  document.getElementById('fDuration').value = h > 0 ? `${h}ч ${m}м` : `${m}м`;
+}
+
+function saveEntry() {
+  const date = document.getElementById('fDate').value;
+  if (!date) { showToast('Укажите дату'); return; }
+
+  const entry = {
+    id: state.editingId || Date.now().toString(),
+    date,
+    timeStart: document.getElementById('fTimeStart').value,
+    timeEnd: document.getElementById('fTimeEnd').value,
+    duration: document.getElementById('fDuration').value,
+    intensity: parseInt(document.getElementById('fIntensity').value),
+    location: ui.getSelected('fLocation'),
+    character: ui.getSelected('fCharacter'),
+    symptoms: ui.getSelected('fSymptoms'),
+    aura: state.auraEnabled,
+    auraTags: state.auraEnabled ? ui.getSelected('fAuraTags') : [],
+    triggers: ui.getSelected('fTriggers'),
+    medicine: document.getElementById('fMedicine').value.trim(),
+    dosage: document.getElementById('fDosage').value.trim(),
+    medEffect: document.getElementById('fMedEffect').value.trim(),
+    medResult: state.selectedMedResult,
+    helped: ui.getSelected('fHelped'),
+    mood: state.selectedMood,
+    stress: parseInt(document.getElementById('fStress').value),
+    sleep: parseFloat(document.getElementById('fSleep').value) || null,
+    bp: document.getElementById('fBP').value.trim(),
+    temp: parseFloat(document.getElementById('fTemp').value) || null,
+    comment: document.getElementById('fComment').value.trim(),
+    updatedAt: Date.now(),
+  };
+
+  if (state.editingId) {
+    storage.updateEntry(state.editingId, entry);
+    showToast('Запись обновлена');
+  } else {
+    storage.addEntry(entry);
+    showToast('Запись сохранена');
+  }
+
+  closeSheet();
+  refreshAll();
+}
+
+function openEdit(id) {
+  openSheet(id);
+}
+
+// ================================================================
+// DETAIL VIEW
+// ================================================================
+function showDetail(id) {
+  const entry = storage.load().find(e => e.id === id);
+  if (!entry) return;
+
+  const d = new Date(entry.date + 'T00:00:00');
+  const dateStr = d.toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' });
+  const pClass = painClass(entry.intensity);
+  const bgClass = painBgClass(entry.intensity);
+
+  const row = (label, value) => value ? `
+    <div class="analytics-stat">
+      <span class="analytics-stat-label">${label}</span>
+      <span class="analytics-stat-value">${value}</span>
+    </div>` : '';
+
+  const tags = (arr) => arr?.length ? arr.map(t => `<span style="display:inline-block;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:13px;margin:3px">${t}</span>`).join('') : '—';
+
+  document.getElementById('detailBody').innerHTML = `
+    <div style="text-align:center;padding:20px 0 24px">
+      <div class="intensity-display ${bgClass}" style="width:72px;height:72px;font-size:32px;margin:0 auto 8px">
+        <span class="${pClass}">${entry.intensity || '?'}</span>
+      </div>
+      <div style="font-size:20px;font-weight:700">${dateStr}</div>
+      <div style="font-size:14px;color:var(--text2);margin-top:4px">${entry.timeStart || ''}${entry.timeEnd ? ' – ' + entry.timeEnd : ''}${entry.duration ? ' · ' + entry.duration : ''}</div>
+    </div>
+    <div style="background:var(--bg);border-radius:16px;padding:4px 16px;margin-bottom:20px">
+      ${row('Локализация', entry.location?.join(', '))}
+      ${row('Характер', entry.character?.join(', '))}
+      ${row('Аура', entry.aura ? (entry.auraTags?.join(', ') || 'Да') : 'Нет')}
+    </div>
+    ${entry.symptoms?.length ? `<div style="margin-bottom:16px"><div class="form-label">Симптомы</div>${tags(entry.symptoms)}</div>` : ''}
+    ${entry.triggers?.length ? `<div style="margin-bottom:16px"><div class="form-label">Триггеры</div>${tags(entry.triggers)}</div>` : ''}
+    <div style="background:var(--bg);border-radius:16px;padding:4px 16px;margin-bottom:20px">
+      ${row('Лекарство', entry.medicine + (entry.dosage ? ' · ' + entry.dosage : ''))}
+      ${row('Подействовало через', entry.medEffect)}
+      ${row('Эффект', { none: 'Не помогло', partial: 'Частично', full: 'Полностью' }[entry.medResult])}
+    </div>
+    ${entry.helped?.length ? `<div style="margin-bottom:16px"><div class="form-label">Что помогло</div>${tags(entry.helped)}</div>` : ''}
+    <div style="background:var(--bg);border-radius:16px;padding:4px 16px;margin-bottom:20px">
+      ${row('Настроение', entry.mood)}
+      ${row('Стресс', entry.stress ? entry.stress + '/10' : null)}
+      ${row('Сон', entry.sleep ? entry.sleep + ' ч' : null)}
+      ${row('АД', entry.bp)}
+      ${row('Температура', entry.temp ? entry.temp + '°C' : null)}
+    </div>
+    ${entry.comment ? `<div style="margin-bottom:20px"><div class="form-label">Комментарий</div><div style="font-size:15px;line-height:1.6">${entry.comment}</div></div>` : ''}
+    <div style="display:flex;gap:12px;margin-top:8px">
+      <button class="btn-ghost" style="flex:1" onclick="closeDetail();openEdit('${entry.id}')">Изменить</button>
+      <button class="btn-danger" style="flex:1" onclick="closeDetail();confirmDelete('${entry.id}')">Удалить</button>
+    </div>
+    <div style="height:20px"></div>
+  `;
+
+  document.getElementById('detailOverlay').classList.add('open');
+  document.getElementById('detailSheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.getElementById('detailSheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ================================================================
+// NAVIGATION
+// ================================================================
+function navigate(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  document.getElementById('nav-' + screen).classList.add('active');
+
+  if (screen === 'history') ui.renderHistory();
+  if (screen === 'calendar') calendar.render();
+  if (screen === 'analytics') analytics.render();
+}
+
+// ================================================================
+// CONFIRM / DELETE
+// ================================================================
+let pendingAction = null;
+
+function confirmDelete(id) {
+  pendingAction = () => {
+    storage.deleteEntry(id);
+    showToast('Запись удалена');
+    refreshAll();
+    closeDialog();
+  };
+  document.getElementById('dialogTitle').textContent = 'Удалить запись?';
+  document.getElementById('dialogMsg').textContent = 'Это действие нельзя отменить.';
+  document.getElementById('dialogConfirmBtn').textContent = 'Удалить';
+  document.getElementById('dialogConfirmBtn').onclick = () => pendingAction && pendingAction();
+  document.getElementById('dialogOverlay').classList.add('open');
+}
+
+function confirmClear() {
+  pendingAction = () => {
+    storage.save([]);
+    showToast('Дневник очищен');
+    refreshAll();
+    closeDialog();
+  };
+  document.getElementById('dialogTitle').textContent = 'Очистить дневник?';
+  document.getElementById('dialogMsg').textContent = 'Все записи будут удалены. Это действие нельзя отменить.';
+  document.getElementById('dialogConfirmBtn').textContent = 'Очистить';
+  document.getElementById('dialogConfirmBtn').onclick = () => pendingAction && pendingAction();
+  document.getElementById('dialogOverlay').classList.add('open');
+}
+
+function closeDialog() {
+  document.getElementById('dialogOverlay').classList.remove('open');
+  pendingAction = null;
+}
+
+// ================================================================
+// TOAST
+// ================================================================
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ================================================================
+// HELPERS
+// ================================================================
+function todayStr() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function refreshAll() {
+  ui.renderToday();
+  const active = document.querySelector('.screen.active');
+  if (active?.id === 'screen-history') ui.renderHistory();
+  if (active?.id === 'screen-calendar') calendar.render();
+  if (active?.id === 'screen-analytics') analytics.render();
+}
+
+// ================================================================
+// CALENDAR
+// ================================================================
+const calendar = {
+  render() {
+    const { calYear, calMonth } = state;
+    const label = new Date(calYear, calMonth, 1).toLocaleDateString('ru-RU', { month:'long', year:'numeric' });
+    document.getElementById('calMonthLabel').textContent = label.charAt(0).toUpperCase() + label.slice(1);
+
+    // Day names
+    const dayNames = document.getElementById('calDayNames');
+    dayNames.innerHTML = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d => `<div class="cal-day-name">${d}</div>`).join('');
+
+    const entries = storage.load();
+    const byDate = {};
+    entries.forEach(e => {
+      if (!byDate[e.date]) byDate[e.date] = [];
+      byDate[e.date].push(e);
+    });
+
+    const firstDay = new Date(calYear, calMonth, 1);
+    let startDow = firstDay.getDay(); // 0=Sun
+    startDow = startDow === 0 ? 6 : startDow - 1; // Mon=0
+
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const today = todayStr();
+
+    let html = '';
+    for (let i = 0; i < startDow; i++) html += '<div class="cal-day empty"></div>';
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const dayEntries = byDate[dateStr] || [];
+      const maxInt = dayEntries.length ? Math.max(...dayEntries.map(e => e.intensity || 0)) : -1;
+
+      let cls = 'cal-day';
+      if (dateStr === today) cls += ' today';
+      if (maxInt < 0 && dayEntries.length === 0) cls += ''; // no entry
+      else if (maxInt === 0) cls += ' pain-0';
+      else if (maxInt <= 3) cls += ' pain-low';
+      else if (maxInt <= 6) cls += ' pain-mid';
+      else cls += ' pain-high';
+
+      html += `<div class="${cls}" onclick="calendar.selectDay('${dateStr}')" data-date="${dateStr}">${d}</div>`;
+    }
+
+    document.getElementById('calGrid').innerHTML = html;
+    document.getElementById('calDayEntries').innerHTML = '';
+  },
+
+  selectDay(dateStr) {
+    document.querySelectorAll('.cal-day').forEach(d => {
+      d.classList.toggle('selected', d.dataset.date === dateStr);
+    });
+
+    const entries = storage.load().filter(e => e.date === dateStr);
+    const container = document.getElementById('calDayEntries');
+    if (!entries.length) {
+      container.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text2);font-size:14px">Записей нет</div>`;
+      return;
+    }
+    container.innerHTML = entries.map(e => renderEntryCard(e, true)).join('');
+  },
+
+  prev() {
+    state.calMonth--;
+    if (state.calMonth < 0) { state.calMonth = 11; state.calYear--; }
+    this.render();
+  },
+
+  next() {
+    state.calMonth++;
+    if (state.calMonth > 11) { state.calMonth = 0; state.calYear++; }
+    this.render();
+  }
+};
+
+// ================================================================
+// ANALYTICS
+// ================================================================
+const analytics = {
+  setPeriod(days, btn) {
+    state.analyticsPeriod = days;
+    document.querySelectorAll('.period-filter .period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    this.render();
+  },
+
+  getEntries() {
+    const cutoff = Date.now() - state.analyticsPeriod * 86400000;
+    return storage.load().filter(e => new Date(e.date + 'T00:00:00').getTime() >= cutoff);
+  },
+
+  render() {
+    const entries = this.getEntries();
+    this.renderSummary(entries);
+    this.renderCharts(entries);
+  },
+
+  renderSummary(entries) {
+    if (!entries.length) {
+      document.getElementById('analyticsSummary').innerHTML = `<div style="text-align:center;padding:24px;color:var(--text2)">Нет данных за выбранный период</div>`;
+      return;
+    }
+
+    const intensities = entries.map(e => e.intensity || 0).filter(Boolean);
+    const avg = intensities.length ? (intensities.reduce((a,b) => a+b,0) / intensities.length).toFixed(1) : '—';
+    const max = intensities.length ? Math.max(...intensities) : '—';
+    const min = intensities.length ? Math.min(...intensities) : '—';
+
+    const durations = entries.filter(e => e.timeStart && e.timeEnd).map(e => {
+      const [sh,sm] = e.timeStart.split(':').map(Number);
+      const [eh,em] = e.timeEnd.split(':').map(Number);
+      let d = (eh*60+em) - (sh*60+sm);
+      if (d < 0) d += 1440;
+      return d;
+    });
+    const avgDur = durations.length ? Math.round(durations.reduce((a,b)=>a+b,0)/durations.length) : null;
+
+    const painDays = new Set(entries.map(e => e.date)).size;
+    const freeDays = state.analyticsPeriod - painDays;
+
+    const stresses = entries.map(e => e.stress).filter(Boolean);
+    const avgStress = stresses.length ? (stresses.reduce((a,b)=>a+b,0)/stresses.length).toFixed(1) : '—';
+
+    const sleeps = entries.map(e => e.sleep).filter(Boolean);
+    const avgSleep = sleeps.length ? (sleeps.reduce((a,b)=>a+b,0)/sleeps.length).toFixed(1) : '—';
+
+    const medEntries = entries.filter(e => e.medicine);
+
+    // Most common trigger
+    const trigCounts = {};
+    entries.forEach(e => (e.triggers||[]).forEach(t => trigCounts[t] = (trigCounts[t]||0)+1));
+    const topTrigger = Object.entries(trigCounts).sort((a,b)=>b[1]-a[1])[0];
+
+    // Most common symptom
+    const symCounts = {};
+    entries.forEach(e => (e.symptoms||[]).forEach(s => symCounts[s] = (symCounts[s]||0)+1));
+    const topSymptom = Object.entries(symCounts).sort((a,b)=>b[1]-a[1])[0];
+
+    // Best medicine
+    const medEff = {};
+    entries.filter(e => e.medicine && e.medResult === 'full').forEach(e => {
+      medEff[e.medicine] = (medEff[e.medicine]||0)+1;
+    });
+    const bestMed = Object.entries(medEff).sort((a,b)=>b[1]-a[1])[0];
+
+    const row = (label, value) => `
+      <div class="analytics-stat">
+        <span class="analytics-stat-label">${label}</span>
+        <span class="analytics-stat-value">${value}</span>
+      </div>`;
+
+    document.getElementById('analyticsSummary').innerHTML = `
+      ${row('Приступов', entries.length)}
+      ${row('Средняя интенсивность', avg)}
+      ${row('Макс. / мин. интенсивность', `${max} / ${min}`)}
+      ${avgDur ? row('Средняя длительность', avgDur >= 60 ? `${Math.floor(avgDur/60)}ч ${avgDur%60}м` : `${avgDur}м`) : ''}
+      ${row('Дней без боли', Math.max(0, freeDays))}
+      ${row('Средний стресс', avgStress)}
+      ${row('Средний сон', avgSleep !== '—' ? avgSleep + ' ч' : '—')}
+      ${row('Принято лекарств', medEntries.length)}
+      ${topTrigger ? row('Частый триггер', `${topTrigger[0]} (${topTrigger[1]}×)`) : ''}
+      ${topSymptom ? row('Частый симптом', `${topSymptom[0]} (${topSymptom[1]}×)`) : ''}
+      ${bestMed ? row('Эффективное лекарство', bestMed[0]) : ''}
+    `;
+  },
+
+  renderCharts(entries) {
+    this.destroyCharts();
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+    const textColor = isDark ? '#94A3B8' : '#64748B';
+
+    Chart.defaults.color = textColor;
+    Chart.defaults.borderColor = gridColor;
+
+    // Intensity by day
+    const byDay = {};
+    entries.forEach(e => {
+      if (!byDay[e.date]) byDay[e.date] = [];
+      byDay[e.date].push(e.intensity || 0);
+    });
+    const sortedDays = Object.keys(byDay).sort();
+    const dayLabels = sortedDays.map(d => new Date(d+'T00:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short'}));
+    const dayVals = sortedDays.map(d => Math.max(...byDay[d]));
+
+    state.charts.intensity = new Chart(document.getElementById('chartIntensity'), {
+      type: 'line',
+      data: {
+        labels: dayLabels,
+        datasets: [{
+          label: 'Интенсивность',
+          data: dayVals,
+          borderColor: '#2563EB',
+          backgroundColor: 'rgba(37,99,235,0.12)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#2563EB',
+        }]
+      },
+      options: { responsive:true, plugins: { legend: { display:false } }, scales: { y: { min:0, max:10 } } }
+    });
+
+    // Monthly
+    const byMonth = {};
+    entries.forEach(e => {
+      const m = e.date.substring(0,7);
+      byMonth[m] = (byMonth[m]||0)+1;
+    });
+    const months = Object.keys(byMonth).sort();
+    state.charts.monthly = new Chart(document.getElementById('chartMonthly'), {
+      type: 'bar',
+      data: {
+        labels: months.map(m => new Date(m+'-01').toLocaleDateString('ru-RU',{month:'short',year:'2-digit'})),
+        datasets: [{ label:'Приступы', data: months.map(m=>byMonth[m]), backgroundColor:'rgba(37,99,235,0.7)', borderRadius:8 }]
+      },
+      options: { responsive:true, plugins:{ legend:{display:false} }, scales:{ y:{beginAtZero:true,ticks:{stepSize:1}} } }
+    });
+
+    // Triggers
+    const trig = {};
+    entries.forEach(e => (e.triggers||[]).forEach(t => trig[t]=(trig[t]||0)+1));
+    const trigSorted = Object.entries(trig).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    state.charts.triggers = new Chart(document.getElementById('chartTriggers'), {
+      type: 'bar',
+      data: {
+        labels: trigSorted.map(t=>t[0]),
+        datasets: [{ label:'Частота', data:trigSorted.map(t=>t[1]), backgroundColor:'rgba(245,158,11,0.75)', borderRadius:8 }]
+      },
+      options: { indexAxis:'y', responsive:true, plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true,ticks:{stepSize:1}}} }
+    });
+
+    // Symptoms
+    const sym = {};
+    entries.forEach(e => (e.symptoms||[]).forEach(s => sym[s]=(sym[s]||0)+1));
+    const symSorted = Object.entries(sym).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    state.charts.symptoms = new Chart(document.getElementById('chartSymptoms'), {
+      type: 'bar',
+      data: {
+        labels: symSorted.map(s=>s[0]),
+        datasets: [{ label:'Частота', data:symSorted.map(s=>s[1]), backgroundColor:'rgba(239,68,68,0.7)', borderRadius:8 }]
+      },
+      options: { indexAxis:'y', responsive:true, plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true,ticks:{stepSize:1}}} }
+    });
+  },
+
+  destroyCharts() {
+    Object.values(state.charts).forEach(c => c?.destroy?.());
+    state.charts = {};
+  }
+};
+
+// ================================================================
+// THEME
+// ================================================================
+const theme = {
+  set(mode, btn) {
+    const settings = storage.loadSettings();
+    settings.theme = mode;
+    storage.saveSettings(settings);
+
+    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+    btn?.classList.add('active');
+
+    this.apply(mode);
+  },
+
+  apply(mode) {
+    let isDark = false;
+    if (mode === 'dark') isDark = true;
+    else if (mode === 'auto') isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    document.getElementById('themeColorMeta').content = isDark ? '#0F172A' : '#2563EB';
+  },
+
+  init() {
+    const settings = storage.loadSettings();
+    const mode = settings.theme || 'auto';
+    this.apply(mode);
+
+    // Sync button state
+    setTimeout(() => {
+      const btns = document.querySelectorAll('.theme-btn');
+      btns.forEach(b => b.classList.remove('active'));
+      const idx = { light:0, dark:1, auto:2 }[mode] ?? 2;
+      if (btns[idx]) btns[idx].classList.add('active');
+    }, 50);
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if ((storage.loadSettings().theme || 'auto') === 'auto') this.apply('auto');
+    });
+  }
+};
+
+// ================================================================
+// EXPORT
+// ================================================================
+function exportData(format) {
+  const entries = storage.load();
+
+  if (format === 'json') {
+    const blob = new Blob([JSON.stringify({ version:1, entries }, null, 2)], { type:'application/json' });
+    download(blob, `headache-diary-${todayStr()}.json`);
+  } else if (format === 'csv') {
+    const headers = ['ID','Дата','Начало','Конец','Длит.','Интенсивность','Локализация','Характер','Симптомы','Аура','Триггеры','Лекарство','Доза','Эффект','Результат','Что помогло','Настроение','Стресс','Сон','АД','Темп.','Комментарий'];
+    const rows = entries.map(e => [
+      e.id, e.date, e.timeStart||'', e.timeEnd||'', e.duration||'',
+      e.intensity||'', (e.location||[]).join('; '), (e.character||[]).join('; '),
+      (e.symptoms||[]).join('; '), e.aura?'Да':'Нет', (e.triggers||[]).join('; '),
+      e.medicine||'', e.dosage||'', e.medEffect||'',
+      { none:'Не помогло', partial:'Частично', full:'Полностью' }[e.medResult]||'',
+      (e.helped||[]).join('; '), e.mood||'', e.stress||'', e.sleep||'', e.bp||'', e.temp||'', e.comment||''
+    ].map(v => `"${String(v).replace(/"/g,'""')}"`));
+    const csv = [headers.map(h=>`"${h}"`).join(','), ...rows.map(r=>r.join(','))].join('\n');
+    const blob = new Blob(['﻿'+csv], { type:'text/csv;charset=utf-8' });
+    download(blob, `headache-diary-${todayStr()}.csv`);
+  }
+
+  showToast('Экспорт готов');
+}
+
+function download(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ================================================================
+// IMPORT
+// ================================================================
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const text = e.target.result;
+      if (file.name.endsWith('.json')) {
+        const data = JSON.parse(text);
+        const incoming = data.entries || (Array.isArray(data) ? data : []);
+        const existing = storage.load();
+        const existingIds = new Set(existing.map(e => e.id));
+        const merged = [...existing, ...incoming.filter(e => !existingIds.has(e.id))];
+        merged.sort((a,b) => b.date.localeCompare(a.date));
+        storage.save(merged);
+        showToast(`Импортировано ${incoming.length} записей`);
+      } else if (file.name.endsWith('.csv')) {
+        showToast('CSV импорт в разработке');
+      }
+      refreshAll();
+    } catch {
+      showToast('Ошибка импорта файла');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// ================================================================
+// PWA
+// ================================================================
+const pwa = {
+  deferredPrompt: null,
+
+  init() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+      document.getElementById('installBanner').style.display = 'flex';
+    });
+
+    window.addEventListener('appinstalled', () => {
+      document.getElementById('installBanner').style.display = 'none';
+      this.deferredPrompt = null;
+      showToast('Приложение установлено!');
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('#sw-src', { scope: './' }).catch(() => {
+        this.registerInlineSW();
+      });
+    }
+  },
+
+  async install() {
+    if (!this.deferredPrompt) return;
+    this.deferredPrompt.prompt();
+    await this.deferredPrompt.userChoice;
+    this.deferredPrompt = null;
+  },
+
+  registerInlineSW() {
+    const swCode = `
+const CACHE = 'headache-v1';
+const ASSETS = ['./'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
+});
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
+    const clone = resp.clone();
+    caches.open(CACHE).then(c => c.put(e.request, clone));
+    return resp;
+  }).catch(() => caches.match('./'))));
+});`;
+    const blob = new Blob([swCode], { type: 'text/javascript' });
+    const url = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url, { scope: './' }).catch(() => {});
+  }
+};
+
+// ================================================================
+// INIT
+// ================================================================
+function init() {
+  // Greeting
+  const hour = new Date().getHours();
+  const greetings = [[0,'Доброй ночи'],[5,'Доброе утро'],[12,'Добрый день'],[17,'Добрый вечер'],[21,'Доброй ночи']];
+  const greeting = greetings.reduce((acc,[h,g]) => hour >= h ? g : acc, 'Добрый день');
+  document.getElementById('greeting').textContent = greeting;
+
+  // Date
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('ru-RU', {
+    weekday:'long', day:'numeric', month:'long', year:'numeric'
+  });
+
+  theme.init();
+  ui.renderToday();
+  pwa.init();
+
+  // Close sheet on backdrop swipe down (touch)
+  let touchStartY = 0;
+  document.getElementById('sheet').addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+  document.getElementById('sheet').addEventListener('touchmove', e => {
+    const delta = e.touches[0].clientY - touchStartY;
+    if (delta > 80) closeSheet();
+  }, { passive: true });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<!-- ============================================================
+     SERVICE WORKER (inline via blob URL fallback registered above)
+     ============================================================ -->
+<script id="sw-src" type="text/sw">
+/* This block is not executed directly — SW is registered via blob URL */
+</script>
+
+</body>
+</html>
